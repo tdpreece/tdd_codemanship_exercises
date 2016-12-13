@@ -30,3 +30,17 @@ class TestCheckout(ParameterizedTestMixin, TestCase):
         expected_total
     ):
         self.assertEqual(checkout.get_total(items), expected_total)
+
+    @ParameterizedTestMixin.parameterize(
+        ("items", "expected_total"),
+        [
+            ([('300.00', 1)], '270.00'),
+            ([('200.01', 1)], '180.01'),
+        ]
+    )
+    def test_10_percent_discount_for_orders_over_200_pounds(
+        self,
+        items,
+        expected_total
+    ):
+        self.assertEqual(checkout.get_total(items), expected_total)
